@@ -19,7 +19,7 @@ A clean, responsive EMI calculator built with **HTML, CSS, and vanilla JavaScrip
 <img width="1299" height="948" alt="EMI_APP_home" src="https://github.com/user-attachments/assets/6c05e5c0-f55b-4304-8c1f-56fcfe8eee87" />
 <img width="1284" height="1005" alt="EMI_APP_dashborad" src="https://github.com/user-attachments/assets/db625c06-d94e-4cb3-82fb-5314bbee7a43" />
 
-
+<div align="center">
 
 ### 1. Loan Inputs
 
@@ -57,6 +57,7 @@ Explore the complete month-by-month repayment schedule and see how each payment 
 Switch between light and dark themes for a comfortable experience across different environments.
 
 <img width="488" height="541" alt="image" src="https://github.com/user-attachments/assets/99e10079-6c17-46f7-88c8-b71ca737248f" />
+</div>
 
    
 ---
