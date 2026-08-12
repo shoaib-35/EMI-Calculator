@@ -26,6 +26,7 @@ A clean, responsive EMI calculator built with **HTML, CSS, and vanilla JavaScrip
 Enter the loan amount, interest rate, tenure, and select the desired repayment method.
 
 <img width="516" height="555" alt="image" src="https://github.com/user-attachments/assets/a821af44-8f30-4b7d-af1a-3f932d7da1c6" />
+
 ---
 
 ### 2. Results Dashboard
