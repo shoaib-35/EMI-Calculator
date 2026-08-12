@@ -10,7 +10,7 @@ A clean, responsive EMI calculator built with **HTML, CSS, and vanilla JavaScrip
 
 ## ✨ Live Demo
 
-**[View EMI Calculator →](https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/)**
+**[View EMI Calculator →](https://shoaib-35.github.io/EMI-Calculator/)**
 
 ---
 
