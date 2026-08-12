@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>EMI Calculator</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════ INPUT SCREEN ══════════════ -->
+<main id="inputScreen" class="screen">
+  <div class="wrap">
+
+    <header class="topbar">
+      <div class="logo">₹</div>
+      <div class="title-block">
+        <h1>EMI Calculator</h1>
+        <p class="subtitle">flat · reducing · conversion</p>
+      </div>
+      <button id="themeToggleInput" class="icon-btn" aria-label="Toggle theme">🌙</button>
+      <span class="badge">v1.0</span>
+    </header>
+
+    <section class="card">
+      <p class="section-label">// Loan Parameters</p>
+
+      <div class="field">
+        <label for="principal">Principal Amount</label>
+        <div class="input-prefix">
+          <span class="prefix">₹</span>
+          <input type="number" id="principal" inputmode="decimal" placeholder="500000" value="500000">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-row">
+          <label for="monthsRange">Tenure (Months)</label>
+          <span class="field-value"><span id="monthsValueLabel">24</span> mo</span>
+        </div>
+        <input type="range" id="monthsRange" min="3" max="360" step="1" value="24" class="slider slider-green">
+        <input type="number" id="monthsInput" inputmode="numeric" value="24" class="text-input">
+      </div>
+
+      <div class="field">
+        <div class="field-row">
+          <label for="rateRange">Interest Rate (%)</label>
+          <span class="field-value"><span id="rateValueLabel">10</span> %</span>
+        </div>
+        <input type="range" id="rateRange" min="0.1" max="36" step="0.1" value="10" class="slider slider-green">
+        <input type="number" id="rateInput" inputmode="decimal" value="10" class="text-input">
+      </div>
+
+      <p id="errorMsg" class="error-msg" hidden></p>
+
+      <button id="calculateBtn" class="btn-primary">Calculate EMI →</button>
+    </section>
+
+  </div>
+</main>
+
+<!-- ══════════════ RESULTS SCREEN ══════════════ -->
+<main id="resultsScreen" class="screen" hidden>
+  <header class="topbar results-topbar">
+    <button id="backBtn" class="icon-btn" aria-label="Back">←</button>
+    <h1 id="resultsTitle" class="results-title">Results</h1>
+    <button id="themeToggleResults" class="icon-btn" aria-label="Toggle theme">🌙</button>
+  </header>
+
+  <div class="wrap results-wrap">
+
+    <!-- ═══ Column 1: Loan Parameters + EMI cards ═══ -->
+    <div class="col col-inputs">
+      <p class="section-label">Loan Parameters</p>
+      <section class="card card-inline-inputs">
+        
+
+        <div class="field">
+          <label for="principalR">Principal Amount</label>
+          <div class="input-prefix">
+            <span class="prefix">₹</span>
+            <input type="number" id="principalR" inputmode="decimal" placeholder="500000" value="500000">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label for="monthsRangeR">Tenure (Months)</label>
+            <span class="field-value"><span id="monthsValueLabelR">24</span> mo</span>
+          </div>
+          <input type="range" id="monthsRangeR" min="3" max="360" step="1" value="24" class="slider slider-green">
+          <input type="number" id="monthsInputR" inputmode="numeric" value="24" class="text-input">
+        </div>
+
+        <div class="field">
+          <div class="field-row">
+            <label for="rateRangeR">Interest Rate (%)</label>
+            <span class="field-value"><span id="rateValueLabelR">10</span> %</span>
+          </div>
+          <input type="range" id="rateRangeR" min="0.1" max="36" step="0.1" value="10" class="slider slider-green">
+          <input type="number" id="rateInputR" inputmode="decimal" value="10" class="text-input">
+        </div>
+
+        <p id="errorMsgR" class="error-msg" hidden></p>
+
+        <button id="recalculateBtn" class="btn-primary">Recalculate →</button>
+      </section>
+
+      <p class="section-title" id="emiSectionTitle">EMI at 10% for both methods</p>
+      <div class="emi-cards">
+        <div class="emi-card" id="emiCardReducing" style="--accent: var(--accent-green)">
+          <div class="emi-card-head">
+            <span class="emi-card-label" id="emiCardReducingLabel">EMI at 10% reducing</span>
+            <span class="tag" id="emiCardReducingTag">reducing balance</span>
+          </div>
+          <div class="emi-amount" id="emiReducingAmount">₹0</div>
+          <p class="per-month">per month</p>
+          <hr>
+          <div class="emi-stats">
+            <div>
+              <span class="stat-label">Total Interest</span>
+              <span class="stat-value" id="interestReducingAmount">₹0</span>
+            </div>
+            <div>
+              <span class="stat-label">Total Payment</span>
+              <span class="stat-value" id="totalReducingAmount">₹0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="emi-card" id="emiCardFlat" style="--accent: var(--accent-orange)">
+          <div class="emi-card-head">
+            <span class="emi-card-label" id="emiCardFlatLabel">EMI at 10% flat</span>
+            <span class="tag" id="emiCardFlatTag">flat rate</span>
+          </div>
+          <div class="emi-amount" id="emiFlatAmount">₹0</div>
+          <p class="per-month">per month</p>
+          <hr>
+          <div class="emi-stats">
+            <div>
+              <span class="stat-label">Total Interest</span>
+              <span class="stat-value" id="interestFlatAmount">₹0</span>
+            </div>
+            <div>
+              <span class="stat-label">Total Payment</span>
+              <span class="stat-value" id="totalFlatAmount">₹0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Column 2: Rate conversions + Breakdown donut ═══ -->
+    <div class="col col-middle">
+      <p class="section-title">Rate conversions</p>
+      <div class="conversion-cards">
+        <div class="conversion-card">
+          <p class="conv-title">Reducing → Flat</p>
+          <div class="conv-row">
+            <span class="conv-from" id="convRFFrom">10% reducing</span>
+            <span class="conv-arrow">⇒</span>
+            <span class="conv-to" id="convRFTo">0% flat</span>
+          </div>
+          <p class="conv-note" id="convRFNote"></p>
+        </div>
+        <div class="conversion-card">
+          <p class="conv-title">Flat → Reducing</p>
+          <div class="conv-row">
+            <span class="conv-from conv-from-orange" id="convFRFrom">10% flat</span>
+            <span class="conv-arrow">⇒</span>
+            <span class="conv-to" id="convFRTo">0% reducing</span>
+          </div>
+          <p class="conv-note" id="convFRNote"></p>
+        </div>
+      </div>
+
+      <p class="section-title">Breakdown</p>
+      <div class="tabbar" id="donutTabbar">
+        <button class="tab active" data-tab="reducing">Reducing</button>
+        <button class="tab" data-tab="flat">Flat</button>
+      </div>
+
+      <div class="donut-card">
+        <div class="donut-wrap">
+          <svg id="donutSvg" viewBox="0 0 130 130" width="130" height="130">
+            <circle cx="65" cy="65" r="49" fill="none" stroke="var(--border)" stroke-width="32"/>
+            <circle id="donutPrincipalArc" cx="65" cy="65" r="49" fill="none" stroke="var(--accent-green)"
+                    stroke-width="32" stroke-linecap="round"
+                    transform="rotate(-90 65 65)"/>
+            <circle id="donutInterestArc" cx="65" cy="65" r="49" fill="none" stroke="var(--accent-orange)"
+                    stroke-width="32" stroke-linecap="round"
+                    transform="rotate(-90 65 65)"/>
+          </svg>
+          <div class="donut-center">
+            <span id="donutPct" class="donut-pct">0%</span>
+            <span class="donut-caption">principal</span>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><span class="dot" style="background:var(--accent-green)"></span><span class="legend-label">Principal</span><span class="legend-value" id="legendPrincipal">₹0</span></div>
+          <div class="legend-item"><span class="dot" id="legendInterestDot" style="background:var(--accent-orange)"></span><span class="legend-label" id="legendInterestLabel">Interest (reducing)</span><span class="legend-value" id="legendInterest">₹0</span></div>
+          <hr>
+          <div class="legend-item"><span class="dot" style="background:var(--text)"></span><span class="legend-label">EMI / month</span><span class="legend-value" id="legendEmi">₹0</span></div>
+          <div class="legend-item"><span class="dot" style="background:var(--muted)"></span><span class="legend-label">Total payment</span><span class="legend-value" id="legendTotal">₹0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Column 3: Amortization Schedule ═══ -->
+    <div class="col col-schedule">
+      <p class="section-title">Amortization Schedule</p>
+      <div class="tabbar" id="scheduleTypeTabbar">
+        <button class="tab active" data-type="reducing">Reducing</button>
+        <button class="tab" data-type="flat">Flat</button>
+      </div>
+
+      <div class="subtabs" id="scheduleSubtabs">
+        <button class="subtab active" data-subtab="full">Full Schedule</button>
+        <button class="subtab" data-subtab="yearly">Yearly Summary</button>
+      </div>
+
+      <div class="table-wrap">
+        <table id="scheduleTable">
+          <thead id="scheduleThead"></thead>
+          <tbody id="scheduleTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
