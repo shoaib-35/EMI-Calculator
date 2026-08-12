@@ -22,14 +22,12 @@ A clean, responsive EMI calculator built with **HTML, CSS, and vanilla JavaScrip
 
 | Loan Inputs         | Results Dashboard   |
 | ------------------- | ------------------- |
-| <img width="516" height="555" alt="image" src="https://github.com/user-attachments/assets/a821af44-8f30-4b7d-af1a-3f932d7da1c6" />
- | <img width="1284" height="1005" alt="EMI_APP_dashborad" src="https://github.com/user-attachments/assets/4ed5dfbd-b8fa-4801-89db-5297b9653ab4" />
+| <img width="516" height="555" alt="image" src="https://github.com/user-attachments/assets/a821af44-8f30-4b7d-af1a-3f932d7da1c6" /> | <img width="1284" height="1005" alt="EMI_APP_dashborad" src="https://github.com/user-attachments/assets/4ed5dfbd-b8fa-4801-89db-5297b9653ab4" />
  |
 
 | Rate Comparison     | Amortization Schedule |
 | ------------------- | --------------------- |
-| <img width="530" height="386" alt="image" src="https://github.com/user-attachments/assets/f19617d9-1395-4f8b-9c20-9ac0a168c0ac" />
- | <img width="504" height="850" alt="image" src="https://github.com/user-attachments/assets/0cb45217-4dae-4fb1-9631-7c90ea3ab7c1" />
+| <img width="530" height="386" alt="image" src="https://github.com/user-attachments/assets/f19617d9-1395-4f8b-9c20-9ac0a168c0ac" /> | <img width="504" height="850" alt="image" src="https://github.com/user-attachments/assets/0cb45217-4dae-4fb1-9631-7c90ea3ab7c1" />
    |
 
 ---
