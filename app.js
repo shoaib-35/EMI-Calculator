@@ -350,6 +350,9 @@ document.querySelectorAll('#donutTabbar .tab').forEach(btn => {
 });
 
 const CIRCUMFERENCE = 2 * Math.PI * 49; // r=49
+let donutAnimId = null;
+
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
 function renderDonut(principal) {
   const r = state.result;
@@ -367,24 +370,57 @@ function renderDonut(principal) {
   const principalArc = $('donutPrincipalArc');
   const interestArc = $('donutInterestArc');
 
-  const principalLen = CIRCUMFERENCE * principalPct;
-  const interestLen = CIRCUMFERENCE * (1 - principalPct);
-
-  principalArc.setAttribute('stroke-dasharray', `${principalLen} ${CIRCUMFERENCE}`);
-  principalArc.setAttribute('stroke-dashoffset', '0');
-
   interestArc.setAttribute('stroke', interestColor);
-  interestArc.setAttribute('stroke-dasharray', `${interestLen} ${CIRCUMFERENCE}`);
-  interestArc.setAttribute('stroke-dashoffset', String(-principalLen));
 
-  $('donutPct').textContent = `${Math.trunc(principalPct * 100)}%`;
-
+  // Static legend/labels update immediately — only the ring animates.
   $('legendPrincipal').textContent = EmiEngine.formatInr(principal);
   $('legendInterestDot').style.background = interestColor;
   $('legendInterestLabel').textContent = `Interest (${methodLabel})`;
   $('legendInterest').textContent = EmiEngine.formatInr(interest);
   $('legendEmi').textContent = EmiEngine.formatInr(emi);
   $('legendTotal').textContent = EmiEngine.formatInr(total);
+
+  // Two-stage fill: empty ring → principal sweeps in first, then interest
+  // sweeps in right after — mirrors the original app's donut animation.
+  if (donutAnimId) cancelAnimationFrame(donutAnimId);
+
+  const principalDuration = 700;  // ms
+  const interestDuration = 500;   // ms
+  const startTime = performance.now();
+
+  function frame(now) {
+    const elapsed = now - startTime;
+    let principalProgress, interestProgress;
+
+    if (elapsed <= principalDuration) {
+      principalProgress = easeOutCubic(Math.min(elapsed / principalDuration, 1));
+      interestProgress = 0;
+    } else {
+      principalProgress = 1;
+      interestProgress = easeOutCubic(Math.min((elapsed - principalDuration) / interestDuration, 1));
+    }
+
+    const principalLen = CIRCUMFERENCE * principalPct * principalProgress;
+    const interestLen = CIRCUMFERENCE * (1 - principalPct) * interestProgress;
+
+    principalArc.setAttribute('stroke-dasharray', `${principalLen} ${CIRCUMFERENCE}`);
+    principalArc.setAttribute('stroke-dashoffset', '0');
+
+    interestArc.setAttribute('stroke-dasharray', `${interestLen} ${CIRCUMFERENCE}`);
+    interestArc.setAttribute('stroke-dashoffset', String(-principalLen));
+
+    // Percentage counts up alongside the principal arc's sweep
+    const displayPct = principalPct * (elapsed <= principalDuration ? principalProgress : 1);
+    $('donutPct').textContent = `${Math.round(displayPct * 100)}%`;
+
+    if (elapsed < principalDuration + interestDuration) {
+      donutAnimId = requestAnimationFrame(frame);
+    } else {
+      donutAnimId = null;
+    }
+  }
+
+  donutAnimId = requestAnimationFrame(frame);
 }
 
 // ── Schedule ──
