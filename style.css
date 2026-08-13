@@ -143,7 +143,7 @@ body {
 
 .section-label {
   font-size: 12px;
-  color: var(--accent-green);
+  color: var(--muted);
   font-weight: 500;
   margin: 0;
 }
